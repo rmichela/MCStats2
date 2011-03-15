@@ -1,0 +1,244 @@
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< O V E R V I E W >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+MCStats is a statistics plugin for the hey0 Minecraft server environment. MCStats
+periodically generates xml, json, js, and html files containing server statistics. Optionally,
+MCStats can also serve these files using an embedded web server.
+
+Using the embedded web server, the html stats report can be served directly from your
+Minecraft server. No need for messy apache installs.
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< I N S T A L L A T I O N >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+To use MCStats, place MCStats.jar in the hey0 plugin directory and add it to the
+server.properties file.
+
+When first run, MCStats will create the MCStats.config file and a statscache
+file. Statscache is the default repository for server statistics. Deleting this
+file will reset all statistics.
+
+<<<<<<<<<<<<<<<<<<<<<<<<< P U R G I N G   O L D   P L A Y E R S >>>>>>>>>>>>>>>>>>>>>>>
+
+To purge an inactive or unwanted player from the statistics cache, add their name to
+the playersToPurge attribute in the MCStats.properties file. More than one player name
+can be added by separating them by spaces. After saving the properties file, reload
+MCStats from the server console to execute the purge. You will be notified that the
+players were removed when the module reloads. Once the selected players have been
+successfully purged from the statistics cache, the playersToPurge property will be
+cleared.
+
+MCStats can be configured to ignore players without a group assignment. When 
+ignoreGrouplessPlayers is set to true in the config, only players with group assignments
+will be added to the statistics cache. This feature can be useful for separating your
+recurring players from guests of your server.
+
+If you only want to reset all the player playtimes to zero, set the resetPlaytime flag
+to true in the config and reload MCStats. When MCStats reloads, all playtimes will be
+reset and the flag will be cleared in the config file.
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<< C O N F I G U R A T I O N >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+The following items can be configured in the MCStats.config file.
+* statsCacheFile        
+- The name of the peristent stats storage file.
+
+* webserverEnabled      
+- Enables or dissables the embedded web server.
+
+* statsBaseResource     
+- The file name (minus extension) to use when saving/serving stats files.
+
+* resourceSaveDirectory 
+- The directory to save stats reports into. For web server integration, set this directory 
+  to you web server's wwwroot directory.
+
+* secondsBetweenSaves   
+- The number of seconds to wait between saving stats reports and the statscache.
+
+* secondsBetweenPageRefreshes 
+- The number of seconds to wait before automatically refreshing the html report in the browser.
+
+* httpServerContextRoot 
+- The path part of the embedded web server's url. Must begin and end with a slash (/). 
+
+  Example: /foo/bar/ => http://host.com/foo/bar/mcstats.html
+  Note: This property only controls the middle part of the url.
+        Not the file name or the server name.
+
+* overwriteHtmlReport
+- Default True. Sets or disables the automatic overwriting of the HTML report file. Useful for
+  modding the HTML report without installing a complete web server. When set to False, the internal
+  web server will continue to serve the generated HTML report, even if it is modified (for a mod,
+  for example).
+
+* httpBacklog           
+- The number of http requests to queue before dropping requests.
+
+* httpPort              
+- The port the embedded web server listens on.
+
+* playersToPurge        
+- A list of player names to remove from the stats cache, separated by spaces.
+
+* resetPlaytime
+- Default False. If set to true, all player playtimes will be reset to zero.
+
+* ignoreGrouplessPlayers
+- Default False. If true, players not assigned to any groups are completely ignored by MCStats.
+  Note: If you will still need to purge players who were created before this setting was set to true.
+
+* httpPostUrl
+- Default empty. When set to a URL, MCStats will attempt to post its json data to that url
+  every time the stats are committed to disk.
+  
+* httpPostConnectTimeout
+- Default 300. The number of milliseconds to wait before giving up on an http post.
+
+* enableSerializerCache
+- Default True. When true, stats served up by the internal web server will only be regenerated every
+  secondsBetweenSaves seconds. If false, stats are generated in real-time. Setting this to false
+  could have a negative affect on server performance.
+                          
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< M O D D I N G >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+                    ======= Styling the HTML Report =======
+The MCStats html report can be easily modded to incorporate the theme of your website.
+To begin, start the plugin and wait for it to generate the default report. If the
+statsBaseResource and resourceSaveDirectory properties have been left as their defaults,
+this file will be stats/mcstats.html in the hey0 bin/ directory. Once the default html 
+file has been generated, make a copy of it and rename the copy.
+
+The following css styles are useful for changing the visual theme of the html report:
+* #online
+- The ID of the table of online players
+
+* #stats
+- The ID of the table of player statistics
+
+* .pName
+- The style for player names in the stats table
+
+* .pOnline
+- The style for player names in the players online list
+
+* th.header
+- The style for unsorted stats table headers
+
+* th.headerSortDown
+- The style for stats table headers sorted in ascending order
+
+* th.headerSortUp
+- The style for stats table headers sorted in descending order
+
+* .admins, .mods, .vip
+- Styles for identifying the standard hey0 roles in the user lists.
+  MCStats assigns each user's div tag a css class with the name of each role they are
+  assigned. Even custom ones.
+  
+To remove a column from the html report, you must first remove the column's <th> tag
+from the html markup and then remove the corresponding javascript that generates the
+column's content. Find the block of code that defines a var with the right name and
+delete the entire block of code. 
+
+            ======= Consuming MCStats data in other programs =======
+In addition to generating an HTML report, MCStats exports its data in xml, json, and
+javascript format. These data feeds are ready for consumption by other programs using
+whatever parser your language provides. For your convenience, here are the xml and json
+data formats.
+
+Additionally, MCStats can be configured to POST json data to a url, allowing MCStats
+to push stats data into your app.
+
+* MCStats.xml *
+<mcStats>
+	<playersOnline>
+		<player>
+			<playerName>STRING</playerName>
+			<groups>SPACE DELIMITED STRING LIST</groups>
+		</player>
+	</playersOnline>
+	<playerStats>
+		<player>
+			<blocksDestroyed>INTEGER</blocksDestroyed>
+			<blocksPlaced>INTEGER</blocksPlaced>
+			<isOnline>BOOLEAN</isOnline>
+			<itemsDropped>INTEGER</itemsDropped>
+			<lastLogin>STRING ENCODED UNIX EPOCH TIMESTAMP</lastLogin>
+			<metersTraveled>INTEGER</metersTraveled>
+			<playerName>STRING</playerName>
+			<playerSince>STRING ENCODED UNIX EPOCH TIMESTAMP</playerSince>
+			<sessionPlaytime>STRING, EMPTY IF NOT ONLINE</sessionPlaytime>
+			<sessionPlaytimeSeconds>INTEGER, -1 IF NOT ONLINE</sessionPlaytimeSeconds>
+			<totalPlaytime>STRING</totalPlaytime>
+			<totalPlaytimeSeconds>INTEGER</totalPlaytimeSeconds>
+		</player>
+	</playerStats>
+</mcStats>
+
+* MCStats.json *
+{
+	{
+    "playerStats": [
+        {
+            "blocksDestroyed": 11,
+            "blocksDestroyedDetails": {			// map between block id and
+                "50": 1,						// total destroyed
+                "2": 6,
+                "18": 3,
+                "12": 1
+            },
+            "blocksPlaced": 41,
+            "blocksPlacedDetails": {			// map between block id and
+                "50": 41						// total placed
+            },
+            "isOnline": true,
+            "itemsDropped": 1,
+            "itemsDroppedDetails": {			// map between item id and
+                "50": 1							// total dropped
+            },
+            "lastLogin": "1290671856505",		// string encoded unix epoch time
+            "metersTraveled": 955,
+            "playerGroups": [
+                "mods"							// array of player's groups
+            ],
+            "playerName": "deltahat",
+            "playerSince": "1290476814776",		// string encoded unix epoch time
+            "sessionPlaytime": "0.03 hours",
+            "sessionPlaytimeSeconds": "174",
+            "totalPlaytime": "3.63 hours",
+            "totalPlaytimeSeconds": "13088"
+        }
+    ],
+    "playersOnline": [
+        {
+            "groups": [							// array of player's groups
+                "mods"
+            ],
+            "playerName": "deltahat"
+        }
+    ]
+}
+
+* MCStats.js *
+var mcStatsRawData = {...json data...};
+
+            ======= Notes on Web Servers =======
+Assuming you are using the default value for statsBaseResource, you can simply rename 
+your mcstats.html file to stats.html and then edit the copy. This will require the 
+use of some other web server technology to serve your new file as the embedded 
+server only serves mcstats.html.
+
+If you are using the internal web server, MCStats will overwrite any customized html 
+report unless you set overwriteHtmlReport to false in the .config file. While setting 
+this to false will allow the internal web server to serve a customized html file, 
+your html file will no longer get any updates with future versions of MCStats since 
+MCStats is now ignoring the file.
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< C O N T A C T >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+MCStats is written by Ryan Michela (deltahat@gmail.com)
+
+Additional code by:
+Shaun (sturmeh) - SuperPlugin.java
+Jason Morris    - JSONEncoder.java
+Christian Bach  - tablesorter.js
+

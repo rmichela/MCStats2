@@ -1,0 +1,12 @@
+name: MCStats2
+main: com.ryanmichela.MCStats2.StatsPlugin
+version: 2
+website: https://github.com/rmichela/MCStats2
+author: Ryan Michela
+description: >
+             Tracks player statistics and provides a web-based report.
+commands:
+  played:
+    description: Reports how long you have played for.
+    usage: |
+           /<command>
