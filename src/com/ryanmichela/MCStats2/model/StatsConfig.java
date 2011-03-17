@@ -77,7 +77,12 @@ public class StatsConfig {
 	}
 	
 	public String[] getPlayersToPurge() {
-		return config.getString("playersToPurge", "").split(" ");
+		String[] splits = config.getString("playersToPurge", "").split(" ");
+		if(splits[0] == "") {
+			return new String[]{};
+		} else {
+			return splits;
+		}
 	}
 	
 	public void clearPlayersToPurge() {
@@ -100,5 +105,18 @@ public class StatsConfig {
 	
 	public boolean getEnableSerializerCache() {
 		return config.getBoolean("enableSerializerCache", true);
+	}
+	
+	////////////////////////////
+	
+	public static String getInitialConfig() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("# Check README for more settings\n");
+		sb.append("# https://github.com/rmichela/MCStats2\n\n");
+		sb.append("resourceSaveDirectory: stats\n");
+		sb.append("statsBaseResource: mcstats\n");
+		sb.append("ignoreGrouplessPlayers: false\n");
+		sb.append("webserverEnabled: false");
+		return sb.toString();
 	}
 }

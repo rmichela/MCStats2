@@ -36,7 +36,7 @@ public class StatsModel {
 		this.log = log;
 
 		//load the stats from disk
-		log.log(Level.INFO, "MCStats restoring player statistics.");
+		log.info("[MCStats] Restoring player statistics.");
 		if(new File(config.getStatsCacheFile()).exists())
 		{
 			try {
@@ -48,9 +48,10 @@ public class StatsModel {
 				stats = new HashMap<String, PlayerStatistics>();
 			}
 		} else {
-			log.log(Level.INFO, "MCStats did not find previously stored player statistics - creating a new statistics cache.");
+			log.info("[MCStats] Did not find previously stored player statistics - creating a new statistics cache.");
 			stats = new HashMap<String, PlayerStatistics>();
 			saveStats();
+			saveUserFiles();
 		}
 	}
 	
@@ -105,7 +106,7 @@ public class StatsModel {
 			out.writeObject(stats);
 			out.close();
 		} catch (Exception ex) {
-			log.log(Level.SEVERE, "MCStats failed to persist player statistics to disk.", ex);
+			log.log(Level.SEVERE, "[MCStats] Failed to persist player statistics to disk.", ex);
 		}
 	}
 	
@@ -134,14 +135,14 @@ public class StatsModel {
 			}
 			
 		} catch (IOException ex) {
-			log.log(Level.SEVERE, "Error writing stats user files.", ex);
+			log.log(Level.SEVERE, "[MCStats] Error writing stats user files.", ex);
 		}
 	}
 	
 	public void purgePlayer(String playerName) {
 		if(stats.containsKey(playerName)) {
 			stats.remove(playerName);
-			log.log(Level.INFO, "Purging player " + playerName);
+			log.info("[MCStats] Purging player " + playerName);
 		}
 	}
 	
