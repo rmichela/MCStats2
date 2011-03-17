@@ -41,6 +41,7 @@ import com.sun.net.httpserver.*;
 public class StatsPlugin extends JavaPlugin {
 
 	private boolean loadError = false;
+	private boolean initialized = false;
 	
 	private StatsModel model;
 	private StatsConfig config;
@@ -79,6 +80,8 @@ public class StatsPlugin extends JavaPlugin {
 			config = new StatsConfig(getConfiguration(), getDataFolder().toString());
 			model = new StatsModel(config, log);
 			controller = new StatsController(model.getStats());
+			
+			initialized = true;
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "[MCStats] Error in initialization.", e);
 			loadError = true;
@@ -87,7 +90,11 @@ public class StatsPlugin extends JavaPlugin {
 	
 	@Override
 	//Attach listener hooks
-	public void onEnable() {		
+	public void onEnable() {
+		if (!initialized) {
+			onLoad();
+		}
+		
 		if (!loadError) {
 			log.info("[MCStats] Enabling MCStats");
 			
