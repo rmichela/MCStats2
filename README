@@ -1,6 +1,6 @@
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< O V E R V I E W >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-MCStats is a statistics plugin for the hey0 Minecraft server environment. MCStats
+MCStats is a statistics plugin for the bukkit Minecraft server environment. MCStats
 periodically generates xml, json, js, and html files containing server statistics. Optionally,
 MCStats can also serve these files using an embedded web server.
 
@@ -9,17 +9,16 @@ Minecraft server. No need for messy apache installs.
 
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< I N S T A L L A T I O N >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-To use MCStats, place MCStats.jar in the hey0 plugin directory and add it to the
-server.properties file.
+To use MCStats, place MCStats.jar in the bukkit plugin directory.
 
-When first run, MCStats will create the MCStats.config file and a statscache
+When first run, MCStats will create the config.yml file and a statscache
 file. Statscache is the default repository for server statistics. Deleting this
 file will reset all statistics.
 
 <<<<<<<<<<<<<<<<<<<<<<<<< P U R G I N G   O L D   P L A Y E R S >>>>>>>>>>>>>>>>>>>>>>>
 
 To purge an inactive or unwanted player from the statistics cache, add their name to
-the playersToPurge attribute in the MCStats.properties file. More than one player name
+the playersToPurge attribute in the config.yml file. More than one player name
 can be added by separating them by spaces. After saving the properties file, reload
 MCStats from the server console to execute the purge. You will be notified that the
 players were removed when the module reloads. Once the selected players have been
@@ -39,13 +38,10 @@ reset and the flag will be cleared in the config file.
 
 The following items can be configured in the MCStats.config file.
 * statsCacheFile        
-- The name of the peristent stats storage file.
-
-* webserverEnabled      
-- Enables or dissables the embedded web server.
+- The name of the peristent stats storage file that stores the raw statistics data.
 
 * statsBaseResource     
-- The file name (minus extension) to use when saving/serving stats files.
+- The file name (minus extension) to use when saving/serving stats report files.
 
 * resourceSaveDirectory 
 - The directory to save stats reports into. For web server integration, set this directory 
@@ -56,6 +52,9 @@ The following items can be configured in the MCStats.config file.
 
 * secondsBetweenPageRefreshes 
 - The number of seconds to wait before automatically refreshing the html report in the browser.
+
+* webserverEnabled      
+- Enables or dissables the embedded web server.
 
 * httpServerContextRoot 
 - The path part of the embedded web server's url. Must begin and end with a slash (/). 
@@ -95,7 +94,7 @@ The following items can be configured in the MCStats.config file.
 
 * enableSerializerCache
 - Default True. When true, stats served up by the internal web server will only be regenerated every
-  secondsBetweenSaves seconds. If false, stats are generated in real-time. Setting this to false
+  [secondsBetweenSaves] seconds. If false, stats are generated in real-time. Setting this to false
   could have a negative affect on server performance.
                           
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< M O D D I N G >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -104,7 +103,7 @@ The following items can be configured in the MCStats.config file.
 The MCStats html report can be easily modded to incorporate the theme of your website.
 To begin, start the plugin and wait for it to generate the default report. If the
 statsBaseResource and resourceSaveDirectory properties have been left as their defaults,
-this file will be stats/mcstats.html in the hey0 bin/ directory. Once the default html 
+this file will be stats/mcstats.html in the bukkit plugin directory. Once the default html 
 file has been generated, make a copy of it and rename the copy.
 
 The following css styles are useful for changing the visual theme of the html report:
@@ -130,7 +129,7 @@ The following css styles are useful for changing the visual theme of the html re
 - The style for stats table headers sorted in descending order
 
 * .admins, .mods, .vip
-- Styles for identifying the standard hey0 roles in the user lists.
+- Styles for identifying the standard bukkit roles in the user lists.
   MCStats assigns each user's div tag a css class with the name of each role they are
   assigned. Even custom ones.
   
@@ -221,14 +220,14 @@ to push stats data into your app.
 * MCStats.js *
 var mcStatsRawData = {...json data...};
 
-            ======= Notes on Web Servers =======
+======= Notes on Web Servers =======
 Assuming you are using the default value for statsBaseResource, you can simply rename 
 your mcstats.html file to stats.html and then edit the copy. This will require the 
 use of some other web server technology to serve your new file as the embedded 
 server only serves mcstats.html.
 
 If you are using the internal web server, MCStats will overwrite any customized html 
-report unless you set overwriteHtmlReport to false in the .config file. While setting 
+report unless you set overwriteHtmlReport to false in the config file. While setting 
 this to false will allow the internal web server to serve a customized html file, 
 your html file will no longer get any updates with future versions of MCStats since 
 MCStats is now ignoring the file.
@@ -238,7 +237,6 @@ MCStats is now ignoring the file.
 MCStats is written by Ryan Michela (deltahat@gmail.com)
 
 Additional code by:
-Shaun (sturmeh) - SuperPlugin.java
 Jason Morris    - JSONEncoder.java
 Christian Bach  - tablesorter.js
 
