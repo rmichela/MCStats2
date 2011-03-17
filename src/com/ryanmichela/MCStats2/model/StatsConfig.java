@@ -28,7 +28,7 @@ public class StatsConfig {
 	
 	//base configuration
 	public String getStatsCacheFile(){
-		return dataFolder + config.getString("statsCacheFile", "statsCache");
+		return config.getString("statsCacheFile", dataFolder + "statsCache");
 	}
 	
 	public String getStatsBaseResource() {
@@ -36,7 +36,7 @@ public class StatsConfig {
 	}
 	
 	public String getResourceSaveDirectory() {
-		return dataFolder + config.getString("resourceSaveDirectory", "stats");
+		return config.getString("resourceSaveDirectory", dataFolder + "stats");
 	}
 	
 	public int getSecondsBetweenSaves() {
@@ -113,7 +113,7 @@ public class StatsConfig {
 		StringBuilder sb = new StringBuilder();
 		sb.append("# Check README for more settings\n");
 		sb.append("# https://github.com/rmichela/MCStats2\n\n");
-		sb.append("resourceSaveDirectory: stats\n");
+		sb.append("resourceSaveDirectory: MCStats2/stats\n");
 		sb.append("statsBaseResource: mcstats\n");
 		sb.append("ignoreGrouplessPlayers: false\n");
 		sb.append("webserverEnabled: false");
