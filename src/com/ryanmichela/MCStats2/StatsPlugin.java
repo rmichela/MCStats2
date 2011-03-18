@@ -36,6 +36,7 @@ import com.ryanmichela.MCStats2.model.StatsConfig;
 import com.ryanmichela.MCStats2.model.StatsModel;
 import com.ryanmichela.MCStats2.reporting.StatsHttpHandler;
 import com.ryanmichela.MCStats2.reporting.StatsSerializer;
+import com.ryanmichela.MCStats2.service.GroupService;
 import com.sun.net.httpserver.*;
 
 public class StatsPlugin extends JavaPlugin {
@@ -49,6 +50,7 @@ public class StatsPlugin extends JavaPlugin {
 	private Logger log;
 	
 	public static Server currentServer;
+	public static GroupService groupService;
 	
 	private ShutdownHook hook = new ShutdownHook();
 	private HttpServer server;
@@ -79,7 +81,10 @@ public class StatsPlugin extends JavaPlugin {
 			currentServer = getServer();
 			config = new StatsConfig(getConfiguration(), getDataFolder().toString());
 			model = new StatsModel(config, log);
-			controller = new StatsController(model.getStats());
+			controller = new StatsController(model.getStats(), config);
+			
+			// Initialize services
+			groupService = new GroupService(currentServer);
 			
 			initialized = true;
 		} catch (Exception e) {

@@ -24,12 +24,15 @@ import org.bukkit.inventory.ItemStack;
 
 import com.ryanmichela.MCStats2.StatsPlugin;
 import com.ryanmichela.MCStats2.model.PlayerStatistics;
+import com.ryanmichela.MCStats2.model.StatsConfig;
 
 public class StatsController {
 	private HashMap<String, PlayerStatistics> stats;
+	private StatsConfig config;
 	
-	public StatsController(HashMap<String, PlayerStatistics> stats) {
+	public StatsController(HashMap<String, PlayerStatistics> stats, StatsConfig config) {
 		this.stats = stats;
+		this.config = config;
 	}
 	
 	//Mark the player's connect time in the playclockStart field of stats
@@ -37,8 +40,7 @@ public class StatsController {
 		if(ignorePlayer(player)) return;
 		PlayerStatistics ps = getPlayerStats(player);
 		ps.sessionMarkTime = new Date();
-		//TODO:Implement player groups using Permissions plugin
-		//ps.playerGroups = player.getGroups();
+		ps.playerGroups = StatsPlugin.groupService.getGroups(player);
 		ps.lastLogin = new Date();
 	}
 	
@@ -163,12 +165,10 @@ public class StatsController {
 	
 	// Ignore players with no group if ignoreGrouplessPlayers is true.
 	private boolean ignorePlayer(Player player) {
-// TODO: Integrate groups with the permissions plugin
-//		if(config.getIgnoreGrouplessPlayers() && player.getGroups().length == 0 ) {
-//			return true;
-//		} else {
-//			return false;
-//		}
-		return false;
+		if(config.getIgnoreGrouplessPlayers() && StatsPlugin.groupService.getGroups(player).length == 0 ) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

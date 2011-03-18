@@ -113,7 +113,7 @@ public class StatsConfig {
 		StringBuilder sb = new StringBuilder();
 		sb.append("# Check README for more settings\n");
 		sb.append("# https://github.com/rmichela/MCStats2\n\n");
-		sb.append("resourceSaveDirectory: MCStats2/stats\n");
+		sb.append("resourceSaveDirectory: plugins/MCStats2/stats\n");
 		sb.append("statsBaseResource: mcstats\n");
 		sb.append("ignoreGrouplessPlayers: false\n");
 		sb.append("webserverEnabled: false");
