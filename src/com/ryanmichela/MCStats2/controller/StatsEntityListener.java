@@ -45,7 +45,7 @@ public class StatsEntityListener extends EntityListener {
 				if(hostileEvent.getEntity() instanceof LivingEntity && hostileEvent.getDamager() instanceof Player) {
 					Player damager = (Player)hostileEvent.getDamager();
 					LivingEntity damagee = (LivingEntity)hostileEvent.getEntity();
-					if(damagee.getHealth() - event.getDamage() <= 0) {
+					if(damagee.getHealth() > 0 && damagee.getHealth() - event.getDamage() <= 0) {
 						controller.kill(damager, damagee);
 					}
 				}
