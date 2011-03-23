@@ -14,6 +14,9 @@ package com.ryanmichela.MCStats2.service;
 //You should have received a copy of the GNU General Public License
 //along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -24,12 +27,16 @@ import com.nijikokun.bukkit.Permissions.Permissions;
 public class GroupService {
 
 	private PermissionHandler permissions;
+	private String[] ignoreGroups;
 	
-	public GroupService(Server server) {
+	public GroupService(Server server, String[] ignoreGroups) {
+		this.ignoreGroups = ignoreGroups;
+		
 		Plugin test = server.getPluginManager().getPlugin("Permissions");
 
 	    if (test != null) {
 	        permissions = ((Permissions)test).getHandler();
+	        
 	    } else {
 	        server.getLogger().info("[MCStats] Permissions plugin not detected, disabling group support.");
         }
@@ -37,7 +44,15 @@ public class GroupService {
 	
 	public String[] getGroups(Player player) {
 		if(permissions != null) {
-			return permissions.getGroups(player.getWorld().getName(), player.getName());
+			ArrayList<String> keepGroups = new ArrayList<String>(Arrays.asList(permissions.getGroups(player.getWorld().getName(), player.getName())));
+
+			for(String ignore : ignoreGroups) {
+				if(keepGroups.contains(ignore)) {
+					keepGroups.remove(ignore);
+				}
+			}
+			
+			return keepGroups.toArray(new String[]{});
 		} else {
 			return new String[]{};
 		}

@@ -47,8 +47,8 @@ public class StatsConfig {
 		return config.getInt("secondsBetweenPageRefreshes", 60);
 	}
 	
-	public boolean getIgnoreGrouplessPlayers () {
-		return config.getBoolean("ignoreGrouplessPlayers", false);
+	public String[] getIgnoreGroups () {
+		return spaceSplit(config.getString("ignoreGroups", ""));
 	}
 	
 	public String getHttpPostUrl() {
@@ -77,12 +77,8 @@ public class StatsConfig {
 	}
 	
 	public String[] getPlayersToPurge() {
-		String[] splits = config.getString("playersToPurge", "").split(" ");
-		if(splits[0] == "") {
-			return new String[]{};
-		} else {
-			return splits;
-		}
+		return spaceSplit(config.getString("playersToPurge", ""));
+
 	}
 	
 	public void clearPlayersToPurge() {
@@ -115,8 +111,17 @@ public class StatsConfig {
 		sb.append("# https://github.com/rmichela/MCStats2\n\n");
 		sb.append("resourceSaveDirectory: plugins/MCStats2/stats\n");
 		sb.append("statsBaseResource: mcstats\n");
-		sb.append("ignoreGrouplessPlayers: false\n");
+		sb.append("# ignoreGroups: default\n");
 		sb.append("webserverEnabled: false");
 		return sb.toString();
+	}
+	
+	private String[] spaceSplit(String str) {
+		String[] splits = str.split(" ");
+		if(splits[0] == "") {
+			return new String[]{};
+		} else {
+			return splits;
+		}
 	}
 }

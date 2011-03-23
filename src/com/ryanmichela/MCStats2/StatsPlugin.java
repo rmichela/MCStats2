@@ -81,10 +81,10 @@ public class StatsPlugin extends JavaPlugin {
 			currentServer = getServer();
 			config = new StatsConfig(getConfiguration(), getDataFolder().toString());
 			model = new StatsModel(config, log);
-			controller = new StatsController(model.getStats(), config);
+			controller = new StatsController(model.getStats());
 			
 			// Initialize services
-			groupService = new GroupService(currentServer);
+			groupService = new GroupService(currentServer, config.getIgnoreGroups());
 			
 			initialized = true;
 		} catch (Exception e) {
@@ -126,7 +126,6 @@ public class StatsPlugin extends JavaPlugin {
 			
 			//purge any users marked for removal
 			if (config.getPlayersToPurge().length > 0) {
-				System.out.println("*** " + config.getPlayersToPurge().length);
 				for (String playerName : config.getPlayersToPurge()) {
 					model.purgePlayer(playerName);
 				}

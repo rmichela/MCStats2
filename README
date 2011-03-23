@@ -75,15 +75,15 @@ The following items can be configured in the MCStats.config file.
 * httpPort              
 - The port the embedded web server listens on.
 
-* playersToPurge        
-- A list of player names to remove from the stats cache, separated by spaces.
-
 * resetPlaytime
 - Default False. If set to true, all player playtimes will be reset to zero.
 
-* ignoreGrouplessPlayers
-- Default False. If true, players not assigned to any groups are completely ignored by MCStats.
-  Note: If you will still need to purge players who were created before this setting was set to true.
+* ignoreGroups
+- Default empty. A list of Permissions groups that MCStats will ignore, separated by spaces.
+  Note: If you will still need to purge players who were created before this setting was set.
+  
+* playersToPurge        
+- A list of player names to remove from the stats cache, separated by spaces.
 
 * httpPostUrl
 - Default empty. When set to a URL, MCStats will attempt to post its json data to that url
@@ -99,7 +99,7 @@ The following items can be configured in the MCStats.config file.
                           
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< M O D D I N G >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-                    ======= Styling the HTML Report =======
+======= Styling the HTML Report =======
 The MCStats html report can be easily modded to incorporate the theme of your website.
 To begin, start the plugin and wait for it to generate the default report. If the
 statsBaseResource and resourceSaveDirectory properties have been left as their defaults,
@@ -138,7 +138,7 @@ from the html markup and then remove the corresponding javascript that generates
 column's content. Find the block of code that defines a var with the right name and
 delete the entire block of code. 
 
-            ======= Consuming MCStats data in other programs =======
+======= Consuming MCStats data in other programs =======
 In addition to generating an HTML report, MCStats exports its data in xml, json, and
 javascript format. These data feeds are ready for consumption by other programs using
 whatever parser your language provides. For your convenience, here are the xml and json
