@@ -158,8 +158,8 @@ public class StatsPlugin extends JavaPlugin {
 											+ ".xml", resource + ".json",
 									resource + ".js", resource + ".html"));
 				} catch (IOException e) {
-					log.log(Level.SEVERE,
-							"[MCStats] Failed to start http server", e);
+					log.log(Level.SEVERE, "[MCStats] Failed to start http server", e);
+					log.severe("Make sure httpServerContextRoot starts and ends with a slash (/).");
 				}
 			}
 			//register a shutdown hook

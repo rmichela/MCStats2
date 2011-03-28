@@ -14,6 +14,9 @@ package com.ryanmichela.MCStats2.reporting;
 //You should have received a copy of the GNU General Public License
 //along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -26,6 +29,7 @@ public class StatsHttpHandler implements HttpHandler {
 
 	private StatsConfig config;
 	private StatsModel stats;
+	private String htmlResponse = "";
 	
 	public StatsHttpHandler(StatsModel stats, StatsConfig config)
 	{
@@ -77,11 +81,25 @@ public class StatsHttpHandler implements HttpHandler {
 	}
 	
 	private void handleHtml(HttpExchange t) throws IOException {
-		String response = StatsSerializer.statsAsHtml(config);
+		if(htmlResponse == "") {
+			// Read the html file off the disk, in case it has been customized
+			File htmlFile = new File(config.getResourceSaveDirectory() + "/" + config.getStatsBaseResource() + ".html");
+			
+			StringBuffer fileData = new StringBuffer(1000);
+	        BufferedReader reader = new BufferedReader(
+	                new FileReader(htmlFile));
+	        char[] buf = new char[1024];
+	        int numRead=0;
+	        while((numRead=reader.read(buf)) != -1){
+	            fileData.append(buf, 0, numRead);
+	        }
+	        reader.close();
+	        htmlResponse = fileData.toString();
+		}
 		
-		t.sendResponseHeaders(200, response.length());
+		t.sendResponseHeaders(200, htmlResponse.length());
 		OutputStream os = t.getResponseBody();
-        os.write(response.getBytes());
+        os.write(htmlResponse.getBytes());
         os.close();	
 	}
 	
