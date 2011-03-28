@@ -15,7 +15,6 @@ package com.ryanmichela.MCStats2.service;
 //along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.bukkit.Server;
 import org.bukkit.entity.Player;
@@ -50,11 +49,18 @@ public class GroupService {
 		}
 		
 		if(permissions != null) {
-			ArrayList<String> keepGroups = new ArrayList<String>(Arrays.asList(permissions.getGroups(player.getWorld().getName(), player.getName())));
-
+			ArrayList<String> keepGroups = new ArrayList<String>();
+			for(String group : permissions.getGroups(player.getWorld().getName(), player.getName())) {
+				// Only add a group if the player is actually assigned - no inheretence
+				if(permissions.inSingleGroup(player.getWorld().getName(), player.getName(), group)) {
+					keepGroups.add(toTitleCase(group));
+				}
+			}
+			
 			for(String ignore : ignoreGroups) {
-				if(keepGroups.contains(ignore)) {
-					keepGroups.remove(ignore);
+				String tcIgnore = toTitleCase(ignore);
+				if(keepGroups.contains(tcIgnore)) {
+					keepGroups.remove(tcIgnore);
 				}
 			}
 			
@@ -62,5 +68,17 @@ public class GroupService {
 		}
 		
 		return playerGroups.toArray(new String[]{});
+	}
+	
+	private String toTitleCase(String groupName) {
+		String[] splits = groupName.split(" ");
+		StringBuilder sb = new StringBuilder();
+		
+		for(int i = 0; i < splits.length; i++) {
+			if(i > 0) sb.append(" ");
+			sb.append(splits[i].substring(0,1).toUpperCase() + splits[i].substring(1).toLowerCase());
+		}
+		
+		return sb.toString();
 	}
 }
