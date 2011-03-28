@@ -43,6 +43,12 @@ public class GroupService {
 	}
 	
 	public String[] getGroups(Player player) {
+		ArrayList<String> playerGroups = new ArrayList<String>();
+		
+		if(player.isOp()) {
+			playerGroups.add("Ops");
+		}
+		
 		if(permissions != null) {
 			ArrayList<String> keepGroups = new ArrayList<String>(Arrays.asList(permissions.getGroups(player.getWorld().getName(), player.getName())));
 
@@ -52,9 +58,9 @@ public class GroupService {
 				}
 			}
 			
-			return keepGroups.toArray(new String[]{});
-		} else {
-			return new String[]{};
+			playerGroups.addAll(keepGroups);
 		}
+		
+		return playerGroups.toArray(new String[]{});
 	}
 }

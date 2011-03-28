@@ -214,15 +214,15 @@ public class StatsSerializer {
 "				white-space:nowrap;\n" +
 "			}\n" +
 "\n" +
-"			.admins {\n" +
+"			.Ops {\n" +
 "				color: #FF4040;\n" +
 "			}\n" +
 "\n" +
-"			.mods {\n" +
+"			.Mods {\n" +
 "				color: #088A85;\n" +
 "			}\n" +
 "\n" +
-"			.vip {\n" +
+"			.Vip {\n" +
 "				color: #49FF40;\n" +
 "			}\n" +
 "\n" +

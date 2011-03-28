@@ -104,7 +104,8 @@ The MCStats html report can be easily modded to incorporate the theme of your we
 To begin, start the plugin and wait for it to generate the default report. If the
 statsBaseResource and resourceSaveDirectory properties have been left as their defaults,
 this file will be stats/mcstats.html in the bukkit plugin directory. Once the default html 
-file has been generated, make a copy of it and rename the copy.
+file has been generated, set the overwriteHtmlReport option in the plugin.yml file to true
+so that your changes are not overwritten my MCStats.
 
 The following css styles are useful for changing the visual theme of the html report:
 * #online
@@ -128,7 +129,7 @@ The following css styles are useful for changing the visual theme of the html re
 * th.headerSortUp
 - The style for stats table headers sorted in descending order
 
-* .admins, .mods, .vip
+* .Ops, .Mods, .Vip
 - Styles for identifying the standard bukkit roles in the user lists.
   MCStats assigns each user's div tag a css class with the name of each role they are
   assigned. Even custom ones.
