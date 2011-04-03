@@ -50,12 +50,18 @@ public class GroupService {
 		
 		if(permissions != null) {
 			ArrayList<String> keepGroups = new ArrayList<String>();
-			for(String group : permissions.getGroups(player.getWorld().getName(), player.getName())) {
-				// Only add a group if the player is actually assigned - no inheretence
-				if(permissions.inSingleGroup(player.getWorld().getName(), player.getName(), group)) {
-					keepGroups.add(toTitleCase(group));
+			
+			// Try to filter down to only explicitly assigned permissions. This is not implemented
+			// in the FakePermissions GroupManager plugin and will throw an error if GroupManager
+			// is installed
+			try {
+				for(String group : permissions.getGroups(player.getWorld().getName(), player.getName())) {
+					// Only add a group if the player is actually assigned - no inheretence
+					if(permissions.inSingleGroup(player.getWorld().getName(), player.getName(), group)) {
+						keepGroups.add(toTitleCase(group));
+					}
 				}
-			}
+			} catch(NoSuchMethodError e) {}
 			
 			for(String ignore : ignoreGroups) {
 				String tcIgnore = toTitleCase(ignore);
