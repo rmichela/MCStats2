@@ -15,10 +15,11 @@ package com.ryanmichela.MCStats2.controller;
 //along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 
 public class StatsPlayerListener extends PlayerListener {
@@ -30,12 +31,12 @@ public class StatsPlayerListener extends PlayerListener {
 	}
 	
 	@Override
-	public void onPlayerJoin(PlayerEvent event) {
+	public void onPlayerJoin(PlayerJoinEvent event) {
 		controller.logIn(event.getPlayer());
 	}
 
 	@Override
-	public void onPlayerQuit(PlayerEvent event) {
+	public void onPlayerQuit(PlayerQuitEvent event) {
 		controller.logOut(event.getPlayer());
 	}
 

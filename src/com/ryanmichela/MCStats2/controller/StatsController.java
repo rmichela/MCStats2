@@ -24,12 +24,15 @@ import org.bukkit.inventory.ItemStack;
 
 import com.ryanmichela.MCStats2.StatsPlugin;
 import com.ryanmichela.MCStats2.model.PlayerStatistics;
+import com.ryanmichela.MCStats2.model.StatsConfig;
 
 public class StatsController {
 	private HashMap<String, PlayerStatistics> stats;
+	private StatsConfig config;
 	
-	public StatsController(HashMap<String, PlayerStatistics> stats) {
+	public StatsController(HashMap<String, PlayerStatistics> stats, StatsConfig config) {
 		this.stats = stats;
+		this.config = config;
 	}
 	
 	//Mark the player's connect time in the playclockStart field of stats
@@ -162,10 +165,6 @@ public class StatsController {
 	
 	// Ignore players with no group if ignoreGrouplessPlayers is true.
 	private boolean ignorePlayer(Player player) {
-		if(StatsPlugin.groupService.getGroups(player).length == 0 ) {
-			return true;
-		} else {
-			return false;
-		}
+		return StatsPlugin.groupService.getGroups(player).length == 0 && config.getIgnoreGrouplessPlayers();
 	}
 }

@@ -51,6 +51,10 @@ public class StatsConfig {
 		return spaceSplit(config.getString("ignoreGroups", ""));
 	}
 	
+	public boolean getIgnoreGrouplessPlayers() {
+		return config.getBoolean("ignoreGrouplessPlayers", false);
+	}
+	
 	public String getHttpPostUrl() {
 		return config.getString("httpPostUrl", "");
 	}
@@ -112,6 +116,7 @@ public class StatsConfig {
 		sb.append("resourceSaveDirectory: plugins/MCStats2/stats\n");
 		sb.append("statsBaseResource: mcstats\n");
 		sb.append("# ignoreGroups: default\n");
+		sb.append("# ignoreGrouplessPlayers: true\n");
 		sb.append("webserverEnabled: false");
 		return sb.toString();
 	}

@@ -81,7 +81,7 @@ public class StatsPlugin extends JavaPlugin {
 			currentServer = getServer();
 			config = new StatsConfig(getConfiguration(), getDataFolder().toString());
 			model = new StatsModel(config, log);
-			controller = new StatsController(model.getStats());
+			controller = new StatsController(model.getStats(), config);
 			
 			// Initialize services
 			groupService = new GroupService(currentServer, config.getIgnoreGroups());
@@ -118,10 +118,10 @@ public class StatsPlugin extends JavaPlugin {
 			
 			StatsEntityListener sel = new StatsEntityListener(controller);
 			getServer().getPluginManager().registerEvent(Type.ENTITY_DEATH, sel, Priority.Monitor, this);
-			getServer().getPluginManager().registerEvent(Type.ENTITY_DAMAGED, sel, Priority.Monitor, this);
+			getServer().getPluginManager().registerEvent(Type.ENTITY_DAMAGE, sel, Priority.Monitor, this);
 			
 			StatsBlockListener sbl = new StatsBlockListener(controller);
-			getServer().getPluginManager().registerEvent(Type.BLOCK_PLACED, sbl, Priority.Monitor, this);
+			getServer().getPluginManager().registerEvent(Type.BLOCK_PLACE, sbl, Priority.Monitor, this);
 			getServer().getPluginManager().registerEvent(Type.BLOCK_BREAK, sbl, Priority.Monitor, this);
 			
 			//purge any users marked for removal

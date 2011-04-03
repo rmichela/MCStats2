@@ -82,6 +82,11 @@ The following items can be configured in the MCStats.config file.
 - Default empty. A list of Permissions groups that MCStats will ignore, separated by spaces.
   Note: If you will still need to purge players who were created before this setting was set.
   
+* ignoreGrouplessPlayers
+- Default false. When true, players with no explicit groups remaining after removing any
+  configured in ignoreGroups will be ignored. This setting also ignores all players
+  in the default group when true.
+  
 * playersToPurge        
 - A list of player names to remove from the stats cache, separated by spaces.
 
