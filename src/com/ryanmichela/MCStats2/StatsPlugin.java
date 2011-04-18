@@ -83,9 +83,6 @@ public class StatsPlugin extends JavaPlugin {
 			model = new StatsModel(config, log);
 			controller = new StatsController(model.getStats(), config);
 			
-			// Initialize services
-			groupService = new GroupService(currentServer, config.getIgnoreGroups());
-			
 			initialized = true;
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "[MCStats] Error in initialization.", e);
@@ -102,6 +99,9 @@ public class StatsPlugin extends JavaPlugin {
 		
 		if (!loadError) {
 			log.info("[MCStats] Enabling MCStats");
+			
+			// Initialize services
+			groupService = new GroupService(currentServer, config.getIgnoreGroups());
 			
 			// Configure the serializer cache
 			StatsSerializer.enableSerializerCache = config
