@@ -23,6 +23,7 @@ import javax.xml.bind.Marshaller;
 
 import com.ryanmichela.MCStats2.model.PlayerStatistics;
 import com.ryanmichela.MCStats2.model.StatsConfig;
+import com.ryanmichela.MCStats2.service.IConomyService;
 
 
 public class StatsSerializer {
@@ -262,6 +263,7 @@ public class StatsSerializer {
 "					<th>Player Kills</th>\n" +
 "					<th>Creature Kills</th>\n" +
 "					<th>Deaths</th>\n" +
+(IConomyService.iConomyInstalled() ? "					<th>Money</th>\n" : "") +
 "					<th>Player Since</th>\n" +
 "					<th>Last Login</th>\n" +
 "					<th>Total Playtime</th>\n" +
@@ -331,6 +333,12 @@ public class StatsSerializer {
 "				deaths.setAttribute('class', 'right number');\n" +
 "				deaths.innerHTML = ps.deaths;\n" +
 "\n" +
+(IConomyService.iConomyInstalled() ?
+"				var currency = tr.insertCell(col++);\n" +
+"				currency.setAttribute('class', 'right number');\n" +
+"				currency.innerHTML = ps.iConomyCurrency;\n" +
+"\n" : "") +
+
 "				var playersince = tr.insertCell(col++);\n" +
 "				playersince.setAttribute('class', 'center date');\n" +
 "				playersince.innerHTML = formatDate(ps.playerSince);\n" +

@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.bukkit.entity.Player;
 
 import com.ryanmichela.MCStats2.StatsPlugin;
+import com.ryanmichela.MCStats2.service.IConomyService;
 
 @XmlRootElement(name="player")
 @XmlAccessorType(XmlAccessType.PROPERTY)
@@ -178,6 +179,11 @@ public class PlayerStatistics implements Serializable {
 	
 	public HashMap<String, Long> getCreatureKillsDetails() {
 		return creatureKills;
+	}
+	
+	@XmlElement
+	public String getiConomyCurrency() {
+		return IConomyService.getCurrency(playerName);
 	}
 	
 	// Utility methods
