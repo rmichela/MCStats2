@@ -37,6 +37,7 @@ import com.ryanmichela.MCStats2.model.StatsModel;
 import com.ryanmichela.MCStats2.reporting.StatsHttpHandler;
 import com.ryanmichela.MCStats2.reporting.StatsSerializer;
 import com.ryanmichela.MCStats2.service.GroupService;
+import com.ryanmichela.MCStats2.service.IConomyService;
 import com.sun.net.httpserver.*;
 
 public class StatsPlugin extends JavaPlugin {
@@ -102,6 +103,7 @@ public class StatsPlugin extends JavaPlugin {
 			
 			// Initialize services
 			groupService = new GroupService(currentServer, config.getIgnoreGroups());
+			IConomyService.initialize();
 			
 			// Configure the serializer cache
 			StatsSerializer.enableSerializerCache = config
