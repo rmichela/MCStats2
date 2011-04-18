@@ -14,6 +14,7 @@ package com.ryanmichela.MCStats2.controller;
 //You should have received a copy of the GNU General Public License
 //along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import org.bukkit.Location;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
@@ -50,7 +51,7 @@ public class StatsPlayerListener extends PlayerListener {
 
 	@Override
 	public void onPlayerMove(PlayerMoveEvent event) {
-		if(!event.isCancelled()) {
+		if(!event.isCancelled() && !samePlace(event.getFrom(), event.getTo())) {
 			controller.travelAMeter(event.getPlayer());
 		}
 	}
@@ -62,6 +63,10 @@ public class StatsPlayerListener extends PlayerListener {
 		}
 	}
 	
-	
+	private boolean samePlace(Location l1, Location l2) {
+		return (l1.getBlockX() == l2.getBlockX()) &&
+		       (l1.getBlockY() == l2.getBlockY()) &&
+		       (l1.getBlockZ() == l2.getBlockZ());
+	}
 
 }
